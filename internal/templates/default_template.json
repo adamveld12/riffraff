@@ -1,0 +1,14 @@
+{
+    "shortcuts": [
+        {
+            "name": "gh",
+            "location": "https://github.com"
+        }
+    ],
+    "searches": [
+        {
+            "name": "so",
+            "location": "https://stackoverflow.com/search?q=%s"
+        }
+    ]
+}
