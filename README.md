@@ -1,5 +1,8 @@
 # rifraf
 
+![GitHub go.mod Go version](https://img.shields.io/github/go-mod/go-version/adamveld12/riffraff?style=flat-square)
+![Docker Pulls](https://img.shields.io/docker/pulls/vdhsn/riffraff?style=flat-square)
+
 A browser omni search bar enhancer. Side effects may include enhanced productivity, happiness and less google search tracking.
 
 
