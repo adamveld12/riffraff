@@ -28,8 +28,8 @@ func ToTemplateVars(req *http.Request, shortcuts map[string]string) TemplateVari
 	}
 
 	if host == "" {
-		if host = req.Header.Get("X-Forwarded-For"); host == "" {
-			host = req.Host
+		if host = req.Host; host == "" {
+			host = req.Header.Get("X-Forwarded-For")
 		}
 	}
 
