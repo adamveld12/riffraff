@@ -19,7 +19,7 @@ func main() {
 	box := packr.NewBox("./internal/templates")
 	tp := internal.TemplateRenderer{FS: box}
 
-	config, err := internal.LoadShortcutsFromConfig(*cfgPath)
+	config, err := internal.LoadConfig(*cfgPath)
 	if err != nil  {
 		log.Fatalf("could not load config from file: %v", err)
 	}

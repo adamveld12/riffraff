@@ -7,9 +7,11 @@ import (
 
 type Config struct {
 	ListenAddress string `json:"listenAddress"`
-	Shortcuts map[string]string `json:"shortcuts"`
+	DataPath string `json:"dataPath"`
+	Shortcuts Shortcuts `json:"shortcuts"`
 }
-func LoadShortcutsFromConfig(configPath string) (Config, error) {
+
+func LoadConfig(configPath string) (Config, error) {
 	var configuration Config
 	file, err := os.Open(configPath)
 	if err != nil {
@@ -39,6 +41,18 @@ func LoadShortcutsFromConfig(configPath string) (Config, error) {
 		configuration.ListenAddress = "127.0.0.1"
 	}
 
+	if configuration.DataPath == "" {
+		configuration.DataPath = "."
+	}
+
 	return configuration, nil
 }
 
+func SaveShortcuts(path string, shorts Shortcuts) error {
+	return nil
+
+}
+
+func LoadShortcuts(path string) (Shortcuts, error) {
+	return nil, nil
+}
