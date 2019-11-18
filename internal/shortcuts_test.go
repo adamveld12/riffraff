@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"reflect"
 	"testing"
+	"sync"
 )
 
 func Test_Handle(t *testing.T) {
@@ -37,6 +38,15 @@ func Test_Handle(t *testing.T) {
 			wantErr: true,
 		},
 		{
+			name:    "add search shortcut: 'add so https://stackvoerflow.com?q=%s'",
+			input:   "add so https://stackoverflow.com?q=%s",
+			want: Command{
+				Action: "add",
+				Name:   "so",
+				Location: "https://stackoverflow.com?q=%s",
+			},
+		},
+		{
 			name:  "remove shortcut: 'remove gh'",
 			input: "remove gh",
 			want: Command{
@@ -67,13 +77,24 @@ func Test_Handle(t *testing.T) {
 				Location: "https://facebook.com",
 			},
 		},
+		{
+			name:  "visit a search shortcut: 'go net/http'",
+			input: "go net/http",
+			want: Command{
+				Action:   "lookup",
+				Name:     "go",
+				Location: "https://godoc.org/net/http",
+			},
+		},
 	}
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			cm := &CommandHandler{
+				Mutex: &sync.Mutex{},
 				Shortcuts: map[string]string{
 					"fb": "https://facebook.com",
+					"go": "https://godoc.org/%s",
 				},
 			}
 

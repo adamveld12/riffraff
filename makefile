@@ -3,6 +3,9 @@ APP := riffraff
 dev: clean .bin/$(APP)-dev
 	./.bin/$(APP)-dev -port 8080 -accesslog=true
 
+test:
+	go test -v ./...
+
 package:
 	docker build --build-arg VERSION=$${VERSION:-dev} -t vdhsn/$(APP):$${VERSION:-dev} .
 

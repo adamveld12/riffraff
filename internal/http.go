@@ -8,15 +8,14 @@ import (
 	"sync"
 )
 
-func NewServer(tp TemplateRenderer, accessLogging bool) http.Handler {
+type Shortcuts map[string]string
+
+func NewServer(tp TemplateRenderer, shorts Shortcuts, accessLogging bool) http.Handler {
 	mux := http.NewServeMux()
 
 	ss := &CommandHandler{
 		Mutex: &sync.Mutex{},
-		Shortcuts: map[string]string{
-			"*":    DefaultSearchProvider,
-			"help": "/",
-		},
+		Shortcuts: shorts,
 	}
 
 	mux.HandleFunc("/", tp.RenderHandler("index.html", ss, nil))

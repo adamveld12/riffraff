@@ -34,6 +34,7 @@ func (c *CommandHandler) Handle(input string) (Command, error) {
 
 		if fragmentCount > 1 {
 			shortcut = rawArgs[1]
+			parameters = strings.Join(rawArgs[1:], " ")
 		}
 
 		var updateShortcutParams string
@@ -46,7 +47,7 @@ func (c *CommandHandler) Handle(input string) (Command, error) {
 		}
 	}
 
-	return c.getShortcut(farg, parameters), nil
+	return c.getShortcut(farg, parameters, input), nil
 }
 
 func (c *CommandHandler) updateShortcut(action, shortcut, location string) (Command, error) {
@@ -84,11 +85,12 @@ func (c *CommandHandler) updateShortcut(action, shortcut, location string) (Comm
 	return command, nil
 }
 
-func (c *CommandHandler) getShortcut(key string, parameter string) Command {
+func (c *CommandHandler) getShortcut(key, parameter, rawInput string) Command {
 	location, ok := c.Shortcuts[key]
 	if !ok {
 		location = DefaultSearchProvider
 		key = "*"
+		parameter = rawInput
 	}
 
 	if strings.Contains(location, "%s") {
