@@ -72,9 +72,11 @@ func (tr TemplateRenderer) RenderHandler(filename string, ss *CommandHandler, he
 	return func(res http.ResponseWriter, req *http.Request) {
 		templVar := ToTemplateVars(req, ss.Shortcuts)
 		h := res.Header()
+
 		for k, v := range headers {
 			h[k] = v
 		}
+
 		h.Set("Cache-Control", "max-age 0; no-cache; private")
 
 		if err := tr.Render(filename, templVar, res); err != nil {
