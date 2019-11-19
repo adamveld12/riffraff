@@ -38,19 +38,26 @@ func searchHandler(scs *CommandHandler, shortcutStore *ShortcutStore, logAccess 
 	return func(res http.ResponseWriter, req *http.Request) {
 		v := req.URL.Query()
 		commandString := v.Get("q")
+
 		action, err := scs.Handle(commandString)
 		if err != nil {
-			accessLogger.Printf("'%s' -> got error: '%s'", commandString, err.Error())
+			if logAccess {
+				accessLogger.Printf("'%s' -> got error: '%s'", commandString, err.Error())
+			}
 			http.Redirect(res, req, fmt.Sprintf("https://duckduckgo.com?q=%s", commandString), http.StatusFound)
+
 			return
 		}
 
 		accessLogger.Printf("'%s' %s -> 302 %s", commandString, action.Action, action.Location)
 
 		if action.Action != "lookup" {
-			if err := shortcutStore.SaveShortcuts(scs.Shortcuts); err != nil {
-				accessLogger.Printf("'%s' %s -> could not save shortcuts database file: %v", commandString, action.Action, err)
+			if err := shortcutStore.SaveShortcuts(scs.Shortcuts, nil); err != nil {
+				if logAccess {
+					accessLogger.Printf("'%s' %s -> could not save shortcuts database file: %v", commandString, action.Action, err)
+				}
 				http.Error(res, err.Error(), http.StatusInternalServerError)
+
 				return
 			}
 		}
