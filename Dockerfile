@@ -10,9 +10,11 @@ RUN make clean build
 FROM alpine
 
 ARG VERSION=dev
+ARG COMMIT=00000000000000000000
 
 LABEL maintainer="Adam Veldhousen <adam@vdhsn.com>"
 LABEL version=${VERSION}
+LABEL commit=${COMMIT}
 
 WORKDIR /usr/local/bin
 COPY --from=build /go/src/riffraff/.bin/riffraff /usr/local/bin/
@@ -25,4 +27,4 @@ USER riffraff
 
 EXPOSE 8080
 
-ENTRYPOINT [ "/usr/local/bin/riffraff", "-port", "8080", "-accesslog"]
+ENTRYPOINT [ "/usr/local/bin/riffraff", "-bind", "127.0.0.1",  "-port", "8080", "-accesslog"]
