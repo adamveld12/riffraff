@@ -10,9 +10,10 @@ import (
 
 type Shortcuts map[string]string
 
-func NewServer(tp TemplateRenderer, shorts Shortcuts, accessLogging bool) http.Handler {
+func NewServer(tp TemplateRenderer, shortcutStore *ShortcutStore, accessLogging bool) http.Handler {
 	mux := http.NewServeMux()
 
+	shorts, _ := shortcutStore.LoadShortcuts()
 	ss := &CommandHandler{
 		Mutex: &sync.Mutex{},
 		Shortcuts: shorts,
@@ -24,14 +25,14 @@ func NewServer(tp TemplateRenderer, shorts Shortcuts, accessLogging bool) http.H
 		"Content-Type": []string{"application/opensearchdescription+xml"},
 	}))
 
-	handlerFunc := searchHandler(ss, accessLogging)
+	handlerFunc := searchHandler(ss, shortcutStore, accessLogging)
 	mux.HandleFunc("/search", handlerFunc)
 	mux.HandleFunc("/search_to_home", handlerFunc)
 
 	return mux
 }
 
-func searchHandler(scs *CommandHandler, logAccess bool) http.HandlerFunc {
+func searchHandler(scs *CommandHandler, shortcutStore *ShortcutStore, logAccess bool) http.HandlerFunc {
 	accessLogger := log.New(os.Stdout, "[access] ", log.Ldate|log.Lmicroseconds|log.Lshortfile)
 
 	return func(res http.ResponseWriter, req *http.Request) {
@@ -45,6 +46,15 @@ func searchHandler(scs *CommandHandler, logAccess bool) http.HandlerFunc {
 		}
 
 		accessLogger.Printf("'%s' %s -> 302 %s", commandString, action.Action, action.Location)
+
+		if action.Action != "lookup" {
+			if err := shortcutStore.SaveShortcuts(scs.Shortcuts); err != nil {
+				accessLogger.Printf("'%s' %s -> could not save shortcuts database file: %v", commandString, action.Action, err)
+				http.Error(res, err.Error(), http.StatusInternalServerError)
+				return
+			}
+		}
+
 		http.Redirect(res, req, action.Location, http.StatusFound)
 	}
 }

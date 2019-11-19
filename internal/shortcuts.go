@@ -105,6 +105,13 @@ func (c *CommandHandler) getShortcut(key string, input ...string) Command {
 	}
 }
 
+func NewDefaultShortcuts() (Shortcuts) {
+	return Shortcuts{
+		"*": DefaultSearchProvider,
+		"help": "/",
+	}
+}
+
 type Command struct {
 	Action   string
 	Name     string

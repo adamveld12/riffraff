@@ -13,18 +13,20 @@ import (
 func main() {
 	port := flag.Int("port", 80, "port to listen on")
 	bindAddr := flag.String("bind", "0.0.0.0", "interface to bind to")
+	dbPath := flag.String("data", "./data.json", "path to save shortcut database")
 	enableAccessLogging := flag.Bool("accesslog", true, "Enable access logging")
 	flag.Parse()
 
 	box := packr.NewBox("./internal/templates")
 	tp := internal.TemplateRenderer{FS: box}
 
-	config, err := internal.LoadConfig(*cfgPath)
-	if err != nil  {
-		log.Fatalf("could not load config from file: %v", err)
+	ss := &internal.ShortcutStore{Path: *dbPath}
+	
+	if err := ss.Init(); err != nil {
+		log.Fatalf("could not access database file: %v", err)
 	}
 
-	server := internal.NewServer(tp, config.Shortcuts, *enableAccessLogging)
+	server := internal.NewServer(tp, ss, *enableAccessLogging)
 
 	log.SetPrefix("[INFO] ")
 

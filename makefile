@@ -1,7 +1,7 @@
 APP := riffraff
 
 dev: clean .bin/$(APP)-dev
-	./.bin/$(APP)-dev -port 8080 -accesslog=true
+	./.bin/$(APP)-dev -port 8080 -accesslog=true -data=data.json
 
 test:
 	go test -v ./...
@@ -28,6 +28,21 @@ build: .bin/$(APP)
 
 clean:
 	rm -rf .bin
+
+clobber: clean
+	rm -rf data.json
+
+data.json:
+	cat <<EOF >> ./data.json
+	{
+		"shortcuts": {
+			"*": "https://duckduckgo.com/%s",
+			"fb": "https://facebook.com",
+			"gh": "https://github.com",
+			"gitemoji": "https://www.webfx.com/tools/emoji-cheat-sheet/"
+		}
+	}
+	EOF
 
 packr:
 	go get -u github.com/gobuffalo/packr/packr
