@@ -12,7 +12,7 @@ import (
 
 func main() {
 	port := flag.Int("port", 80, "port to listen on")
-	bindAddr := flag.String("bind", "0.0.0.0", "interface to bind to")
+	bindAddr := flag.String("bind", "127.0.0.1", "interface to bind to")
 	dbPath := flag.String("data", "./data.json", "path to save shortcut database")
 	enableAccessLogging := flag.Bool("accesslog", true, "Enable access logging")
 	flag.Parse()

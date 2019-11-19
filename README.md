@@ -1,10 +1,18 @@
-# rifraf
+# riffraff
+
+[![GoDoc](https://godoc.org/git.vdhsn.com/adam/riffraff?status.svg)](http://godoc.org/git.vdhsn.com/adam/riffraff)
+[![Go Report Card](https://goreportcard.com/badge/git.vdhsn.com/adam/riffraff)](https://goreportcard.com/report/git.vdhsn.com/adam/riffraff)
+![Docker Pulls](https://img.shields.io/docker/pulls/vdhsn/riffraff?style=flat-square)
+![GitHub go.mod Go version](https://img.shields.io/github/go-mod/go-version/adamveld12/riffraff?style=flat-square)
+[![Gocover](http://gocover.io/_badge/github.com/adamveld12/riffraff)](http://gocover.io/github.com/adamveld12/riffraff)
+[![Go Walker](http://gowalker.org/api/v1/badge)](https://gowalker.org/github.com/adamveld12/riffraff)
+[![Build Status](https://semaphoreci.com/api/v1/adamveld12/riffraff/branches/master/badge.svg)](https://semaphoreci.com/adamveld12/riffraff)
+
 
 A browser omni search bar enhancer. Side effects may include enhanced productivity, happiness and less google search tracking.
 
 
 ## How to install
-
 
 - Install it:
 ```
@@ -13,7 +21,7 @@ go get git.vdhsn.com/adam/riffraff
 
 - Start it:
 ```
-rifiraff [-p 80] [-accesslog]
+rifiraff [-bind 127.0.0.1] [-p 80] [-accesslog] [-data ./data.json]
 ```
 
 - Point your browser at it:

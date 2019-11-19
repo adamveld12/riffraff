@@ -7,7 +7,7 @@ BINARY := $(OUTDIR)/$(app)
 
 GIT_SHA := $$(git rev-parse HEAD)
 GIT_BRANCH := $$(git rev-parse --abbrev-ref HEAD)
-VERSION := $(git desribe)
+VERSION := $$(git describe)
 
 
 define SHORTCUT_DATA

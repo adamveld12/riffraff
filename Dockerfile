@@ -1,4 +1,4 @@
-FROM golang:1.13.3-alpine AS build
+FROM golang:1.13.4-alpine AS build
 
 WORKDIR /go/src/riffraff
 COPY . /go/src/riffraff
