@@ -7,7 +7,7 @@ BINARY := $(OUTDIR)/$(app)
 
 GIT_SHA := $$(git rev-parse HEAD)
 GIT_BRANCH := $$(git rev-parse --abbrev-ref HEAD)
-VERSION := $(git desribe)
+VERSION := $$(git describe)
 
 
 define SHORTCUT_DATA
@@ -48,6 +48,10 @@ publish: package
 	docker push vdhsn/$(APP):$(VERSION)
 	docker push vdhsn/$(APP):$(GIT_BRANCH)
 
+tag:
+	git tag --merged refs/head/master
+	git tag -ase $${TAG}
+
 build: $(BINARY)
 
 $(OUTDIR):
@@ -71,4 +75,4 @@ data.json:
 packr:
 	go get -u github.com/gobuffalo/packr/packr
 
-.PHONY: build clean clobber dev lint package package-run publish packr test
+.PHONY: build clean clobber dev lint package package-run publish packr tag test
