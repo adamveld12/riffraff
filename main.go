@@ -12,7 +12,7 @@ import (
 
 func main() {
 	port := flag.Int("port", 80, "port to listen on")
-	cfgPath := flag.String("config", "./config.json", "path to config file")
+	bindAddr := flag.String("bind", "0.0.0.0", "interface to bind to")
 	enableAccessLogging := flag.Bool("accesslog", true, "Enable access logging")
 	flag.Parse()
 
@@ -28,7 +28,7 @@ func main() {
 
 	log.SetPrefix("[INFO] ")
 
-	addr := fmt.Sprintf("%s:%d", config.ListenAddress, *port)
+	addr := fmt.Sprintf("%s:%d", *bindAddr, *port)
 	log.Printf("Listening @ %s", addr)
 	log.Fatal(http.ListenAndServe(addr, server))
 }
