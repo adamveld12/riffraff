@@ -48,8 +48,10 @@ publish: package
 	docker push vdhsn/$(APP):$(VERSION)
 	docker push vdhsn/$(APP):$(GIT_BRANCH)
 
+show-versions:
+	git tag --merged refs/heads/master
+
 tag:
-	git tag --merged refs/head/master
 	git tag -ase $${TAG}
 
 build: $(BINARY)
@@ -75,4 +77,4 @@ data.json:
 packr:
 	go get -u github.com/gobuffalo/packr/packr
 
-.PHONY: build clean clobber dev lint package package-run publish packr tag test
+.PHONY: build clean clobber dev lint package package-run publish packr show-versions tag test
