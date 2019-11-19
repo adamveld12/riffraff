@@ -21,7 +21,7 @@ func main() {
 	tp := internal.TemplateRenderer{FS: box}
 
 	ss := &internal.ShortcutStore{Path: *dbPath}
-	
+
 	if err := ss.Init(); err != nil {
 		log.Fatalf("could not access database file: %v", err)
 	}

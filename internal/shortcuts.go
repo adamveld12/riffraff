@@ -84,8 +84,9 @@ func (c *CommandHandler) updateShortcut(action, shortcut, location string) (Comm
 }
 
 func (c *CommandHandler) getShortcut(key string, input ...string) Command {
-	location, ok := c.Shortcuts[key]
 	var parameter string
+
+	location, ok := c.Shortcuts[key]
 	if !ok {
 		location = DefaultSearchProvider
 		key = "*"
@@ -105,9 +106,9 @@ func (c *CommandHandler) getShortcut(key string, input ...string) Command {
 	}
 }
 
-func NewDefaultShortcuts() (Shortcuts) {
+func NewDefaultShortcuts() Shortcuts {
 	return Shortcuts{
-		"*": DefaultSearchProvider,
+		"*":    DefaultSearchProvider,
 		"help": "/",
 	}
 }

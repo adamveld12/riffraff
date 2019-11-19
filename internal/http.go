@@ -13,9 +13,9 @@ type Shortcuts map[string]string
 func NewServer(tp TemplateRenderer, shortcutStore *ShortcutStore, accessLogging bool) http.Handler {
 	mux := http.NewServeMux()
 
-	shorts, _ := shortcutStore.LoadShortcuts()
+	shorts, _ := shortcutStore.LoadShortcuts(nil)
 	ss := &CommandHandler{
-		Mutex: &sync.Mutex{},
+		Mutex:     &sync.Mutex{},
 		Shortcuts: shorts,
 	}
 

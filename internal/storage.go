@@ -1,9 +1,10 @@
 package internal
 
 import (
-	"os"
-	"log"
 	"encoding/json"
+	"io"
+	"log"
+	"os"
 )
 
 type ShortcutStore struct {
@@ -16,25 +17,25 @@ type ShortcutData struct {
 
 func (ss *ShortcutStore) Init() error {
 	defaultSS := NewDefaultShortcuts()
+
 	if _, err := os.Stat(ss.Path); os.IsNotExist(err) {
 		log.Printf("file doesn't exist %s: %v", ss.Path, err)
-		if err := ss.SaveShortcuts(defaultSS); err != nil {
+
+		if err := ss.SaveShortcuts(defaultSS, nil); err != nil {
 			return err
 		}
+
 		return nil
 	}
 
-
-	if _, err := ss.LoadShortcuts(); err != nil {
+	if _, err := ss.LoadShortcuts(nil); err != nil {
 		return err
 	}
 
 	return nil
 }
 
-func (ss *ShortcutStore) SaveShortcuts(shorts Shortcuts) error {
-	// remove help shortcut
-
+func (ss *ShortcutStore) SaveShortcuts(shorts Shortcuts, copyTo io.Writer) error {
 	file, err := os.Create(ss.Path)
 	if err != nil {
 		return err
@@ -50,29 +51,39 @@ func (ss *ShortcutStore) SaveShortcuts(shorts Shortcuts) error {
 		}
 	}
 
-	sc := ShortcutData{ Shortcuts: temp }
+	sc := ShortcutData{Shortcuts: temp}
 
-	encoder := json.NewEncoder(file)
+	var target io.Writer
+	if copyTo != nil {
+		target = io.MultiWriter(file, copyTo)
+	} else {
+		target = file
+	}
+
+	encoder := json.NewEncoder(target)
 	encoder.SetIndent("", "\t")
+
 	if err := encoder.Encode(&sc); err != nil {
-		return  err
+		return err
 	}
 
 	return nil
-
 }
 
-func (ss *ShortcutStore) LoadShortcuts() (Shortcuts, error) {
+func (ss *ShortcutStore) LoadShortcuts(copyTo io.Writer) (Shortcuts, error) {
 	var sc ShortcutData
+
 	file, err := os.Open(ss.Path)
 	if err != nil {
 		if !os.IsExist(err) {
 			return NewDefaultShortcuts(), nil
 		}
+
 		return sc.Shortcuts, err
 	}
 
 	defer file.Close()
+
 	finfo, err := file.Stat()
 	if err != nil {
 		return sc.Shortcuts, err
@@ -82,9 +93,15 @@ func (ss *ShortcutStore) LoadShortcuts() (Shortcuts, error) {
 		return NewDefaultShortcuts(), nil
 	}
 
+	var target io.Reader
 
-	decoder := json.NewDecoder(file)
+	if copyTo != nil {
+		target = io.TeeReader(file, copyTo)
+	} else {
+		target = file
+	}
 
+	decoder := json.NewDecoder(target)
 	if err := decoder.Decode(&sc); err != nil {
 		return sc.Shortcuts, err
 	}

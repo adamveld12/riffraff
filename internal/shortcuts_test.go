@@ -3,12 +3,12 @@ package internal
 import (
 	"fmt"
 	"reflect"
-	"testing"
 	"sync"
+	"testing"
 )
 
 func Test_Handle(t *testing.T) {
-	tests := []struct {
+	testHandleCases := []struct {
 		name    string
 		input   string
 		want    Command
@@ -38,11 +38,11 @@ func Test_Handle(t *testing.T) {
 			wantErr: true,
 		},
 		{
-			name:    "add search shortcut: 'add so https://stackvoerflow.com?q=%s'",
-			input:   "add so https://stackoverflow.com?q=%s",
+			name:  "add search shortcut: 'add so https://stackvoerflow.com?q=%s'",
+			input: "add so https://stackoverflow.com?q=%s",
 			want: Command{
-				Action: "add",
-				Name:   "so",
+				Action:   "add",
+				Name:     "so",
 				Location: "https://stackoverflow.com?q=%s",
 			},
 		},
@@ -88,7 +88,8 @@ func Test_Handle(t *testing.T) {
 		},
 	}
 
-	for _, tt := range tests {
+	for _, testCase := range testHandleCases {
+		tt := testCase
 		t.Run(tt.name, func(t *testing.T) {
 			cm := &CommandHandler{
 				Mutex: &sync.Mutex{},
