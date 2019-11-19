@@ -15,7 +15,7 @@
     </head>
     <body style="display: flex; width: 100%; align-items: center; flex-direction: column;">
         <div style="display: flex; align-content: center; flex-direction: column; min-width: 40%;">
-            <h1>Hello internet - {{ .Host }} greets you.</h1>
+            <h1>I was only away for a minute... master.</h1>
             <!-- Add search box form here for testing/adding shortcuts -->
             <form action="/search" method="GET" style="display:flex; margin-bottom: 10px; width: 100%;">
                 <input type="text" name="q" value="" style="flex-grow: 1;"/>
