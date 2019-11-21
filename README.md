@@ -7,6 +7,7 @@
 [![Gocover](http://gocover.io/_badge/github.com/adamveld12/riffraff)](http://gocover.io/github.com/adamveld12/riffraff)
 [![Go Walker](http://gowalker.org/api/v1/badge)](https://gowalker.org/github.com/adamveld12/riffraff)
 [![Build Status](https://semaphoreci.com/api/v1/adamveld12/riffraff/branches/master/badge.svg)](https://semaphoreci.com/adamveld12/riffraff)
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
 
 A browser omni search bar enhancer. Side effects may include enhanced productivity, happiness and less google search tracking.
