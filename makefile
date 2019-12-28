@@ -57,7 +57,7 @@ show-versions:
 	@git tag --merged refs/heads/master
 
 tag:
-	git tag -ase $${TAG}
+	git tag -as $${TAG}
 
 clean:
 	rm -rf $(OUTDIR)
