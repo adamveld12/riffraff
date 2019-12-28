@@ -2,7 +2,7 @@
 
 [![GoDoc](https://godoc.org/git.vdhsn.com/adam/riffraff?status.svg)](http://godoc.org/git.vdhsn.com/adam/riffraff)
 [![Go Report Card](https://goreportcard.com/badge/git.vdhsn.com/adam/riffraff)](https://goreportcard.com/report/git.vdhsn.com/adam/riffraff)
-![Docker Pulls](https://img.shields.io/docker/pulls/vdhsn/riffraff?style=flat-square)
+[![Docker Pulls](https://img.shields.io/docker/pulls/vdhsn/riffraff?style=flat-square)](https://hub.docker.com/repository/docker/vdhsn/riffraff)
 ![GitHub go.mod Go version](https://img.shields.io/github/go-mod/go-version/adamveld12/riffraff?style=flat-square)
 [![Gocover](http://gocover.io/_badge/github.com/adamveld12/riffraff)](http://gocover.io/github.com/adamveld12/riffraff)
 [![Go Walker](http://gowalker.org/api/v1/badge)](https://gowalker.org/github.com/adamveld12/riffraff)
