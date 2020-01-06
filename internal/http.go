@@ -53,6 +53,11 @@ func searchHandler(scs *CommandHandler, shortcutStore *ShortcutStore, logAccess 
 		v := req.URL.Query()
 		commandString := v.Get("q")
 
+		if commandString == "" {
+			http.Redirect(res, req, "https://duckduckgo.com", http.StatusFound)
+			return
+		}
+
 		action, err := scs.Handle(commandString)
 		if err != nil {
 			if logAccess {
