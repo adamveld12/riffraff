@@ -13,7 +13,7 @@
 A browser omni search bar enhancer. Side effects may include enhanced productivity, happiness and less google search tracking.
 
 
-## How to install
+## How to use
 
 - Install it:
 ```

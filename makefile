@@ -37,6 +37,9 @@ lint: $(LINTBIN)
 $(LINTBIN):
 	@GO111MODULE=on go get github.com/golangci/golangci-lint/cmd/golangci-lint
 
+$(TMPDIR):
+	mkdir $(TMPDIR)
+
 package:
 	@docker build --build-arg VERSION=$(VERSION) \
 				  --build-arg COMMIT=$(GIT_SHA) \

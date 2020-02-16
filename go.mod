@@ -4,6 +4,7 @@ go 1.13
 
 require (
 	github.com/gobuffalo/packr v1.30.1
+	github.com/gofrs/uuid v3.2.0+incompatible
 	github.com/golangci/golangci-lint v1.21.0 // indirect
 	github.com/satori/go.uuid v1.2.0
 )
