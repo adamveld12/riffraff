@@ -1,0 +1,62 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: riffraff
+  labels:
+    name: riffraff
+    app: riffraff
+spec:
+  replicas: 1
+  serviceName: riffraff
+  selector:
+    matchLabels:
+      app: riffraff
+  template:
+    metadata:
+      labels:
+        name: riffraff
+        app: riffraff
+    spec:
+      restartPolicy: Always
+      containers:
+        - image: vdhsn/riffraff:v0.2.2
+          name: riffraff
+          stdin: true
+          tty: true
+          resources:
+            limits:
+              cpu: "64m"
+              memory: "128M"
+            requests:
+              cpu: "64m"
+              memory: "128M"
+          ports:
+            - containerPort: 8080
+          volumeMounts:
+            - name: riffraff-data
+              mountPath: /data/
+          securityContext:
+            allowPrivilegeEscalation: false
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+      volumes:
+        - name: riffraff-data
+          persistentVolumeClaim:
+            claimName: riffraff-data-claim
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: riffraff
+spec:
+  type: LoadBalancer
+  externalTrafficPolicy: Local
+  ports:
+    - port: 80
+      name: web
+      protocol: TCP
+      targetPort: 8080
+  selector:
+    app: riffraff
